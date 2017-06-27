@@ -1,4 +1,4 @@
-package com.ambzer.spring.test;
+package com.ambzer.spring.base;
 
 import org.junit.After;
 import org.junit.Before;
@@ -13,9 +13,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class UnitTestBase {
 
     private ClassPathXmlApplicationContext classPathXmlApplicationContext;
-    private static final String springXmlPath = "classpath*:spring-*.xml";
+    private String springXmlPath = "classpath*:spring-*.xml";
 
     public UnitTestBase() {
+    }
+
+    public UnitTestBase(String springXmlPath) throws Exception {
+        if (springXmlPath == null || springXmlPath.equals("")) throw new Exception("springXmlPath is empty!");
+        this.springXmlPath = "classpath*:"+springXmlPath;
     }
 
     @Before
@@ -36,6 +41,15 @@ public class UnitTestBase {
     public void setClassPathXmlApplicationContext(ClassPathXmlApplicationContext classPathXmlApplicationContext) {
         this.classPathXmlApplicationContext = classPathXmlApplicationContext;
     }
+
+    protected <T extends Object> T getBean(String beanId){
+        return (T) classPathXmlApplicationContext.getBean(beanId);
+    }
+
+    protected <T extends Object> T getBean(Class beanClass){
+        return (T) classPathXmlApplicationContext.getBean(beanClass);
+    }
+
 
 
 }
