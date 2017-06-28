@@ -3,7 +3,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="beanLifeCycleConfInXml" class="com.ambzer.spring.lifecycle.BeanLifeCycleConfInXml" init-method="init" destroy-method="destroy"/>
-    <bean id="beanLifeCycleImplMethod" class="com.ambzer.spring.lifecycle.BeanLifeCycleImplMethod"/>
+    <!--<bean id="beanLifeCycleConfInXml" class="com.ambzer.spring.lifecycle.BeanLifeCycleConfInXml" init-method="init" destroy-method="destroy"/>-->
+    <!--<bean id="beanLifeCycleImplMethod" class="com.ambzer.spring.lifecycle.BeanLifeCycleImplMethod"/>-->
+    <bean id="beanLifeCycleConfAndImpl" class="com.ambzer.spring.lifecycle.BeanLifeCycleConfAndImpl" init-method="init" destroy-method="destroy2"/>
 
 </beans>

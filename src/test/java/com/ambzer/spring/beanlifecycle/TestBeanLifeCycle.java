@@ -1,6 +1,7 @@
 package com.ambzer.spring.beanlifecycle;
 
 import com.ambzer.spring.base.UnitTestBase;
+import com.ambzer.spring.lifecycle.BeanLifeCycleConfAndImpl;
 import com.ambzer.spring.lifecycle.BeanLifeCycleConfInXml;
 import com.ambzer.spring.lifecycle.BeanLifeCycleImplMethod;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class TestBeanLifeCycle extends UnitTestBase {
     }
 
     @Test
-    public void testLifeCycle(){
+    public void testLifeCycle() {
         BeanLifeCycleConfInXml beanLifeCycleConfInXml = super.getBean("beanLifeCycleConfInXml");
         beanLifeCycleConfInXml.say();
         BeanLifeCycleImplMethod beanLifeCycleImplMethod = super.getBean("beanLifeCycleImplMethod");
@@ -23,9 +24,15 @@ public class TestBeanLifeCycle extends UnitTestBase {
     }
 
     @Test
-    public void testLIfeCycle2(){
+    public void testLIfeCycle2() {
         BeanLifeCycleImplMethod beanLifeCycleImplMethod = super.getBean("beanLifeCycleImplMethod");
         beanLifeCycleImplMethod.say();
+    }
+
+    @Test
+    public void testLifeCycle3() {
+        BeanLifeCycleConfAndImpl beanLifeCycleConfAnd = super.getBean("beanLifeCycleConfAndImpl");
+        beanLifeCycleConfAnd.say();
     }
 
 }
