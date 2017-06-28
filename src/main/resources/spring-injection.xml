@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="injectionMapper" class="com.ambzer.spring.injection.InjectionMapperImpl"/>
-    <bean id="PropertiesInjectionService" class="com.ambzer.spring.injection.PropertiesInjectionServiceImpl">
+    <bean id="propertiesInjectionService" class="com.ambzer.spring.injection.PropertiesInjectionServiceImpl">
         <property name="injectionMapper" ref="injectionMapper"/>
         <!--<constructor-arg name="injectionMapper" ref="injectionMapper"/>-->
     </bean>

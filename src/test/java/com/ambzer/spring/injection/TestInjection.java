@@ -1,4 +1,4 @@
-package com.ambzer.spring;
+package com.ambzer.spring.injection;
 
 import com.ambzer.spring.base.UnitTestBase;
 import com.ambzer.spring.injection.PropertiesInjectionService;
@@ -15,7 +15,7 @@ public class TestInjection extends UnitTestBase {
 
     @Test
     public void testInjection(){
-        PropertiesInjectionService propertiesInjectionService = super.getBean("PropertiesInjectionService");
+        PropertiesInjectionService propertiesInjectionService = super.getBean("propertiesInjectionService");
         propertiesInjectionService.doSave("hello world!");
     }
 
