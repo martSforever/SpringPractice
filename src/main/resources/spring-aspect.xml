@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="ambzerAspect" class="com.ambzer.spring.aspect.AmbzerAspect"/>
+    <bean id="aspectTarget" class="com.ambzer.spring.aspect.AspectTarget"/>
+
+    <aop:config>
+        <aop:aspect id="ambzerAspectAOP" ref="ambzerAspect">
+            <aop:pointcut id="ambzerPointcut" expression="execution(* com.ambzer.spring.aspect.AspectTarget.*(..))"/>
+            <!--同一个通知如果被配置两次，就会运行两次-->
+            <!--<aop:before method="before" pointcut-ref="ambzerPointcut"/>-->
+            <!--<aop:before method="before" pointcut-ref="ambzerPointcut"/>-->
+            <!--<aop:after-returning method="afterReturning" pointcut-ref="ambzerPointcut"/>-->
+            <!--<aop:around method="doBasicProfiling" pointcut-ref="ambzerPointcut"/>-->
+            <aop:around method="interceptGetName" pointcut="execution(* com.ambzer.spring.aspect.AspectTarget.getName(String,String)) and args(firstName,lastName)"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

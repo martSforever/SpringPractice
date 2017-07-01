@@ -21,3 +21,29 @@ INFO: Closing org.springframework.context.support.ClassPathXmlApplicationContext
 表示关闭了一个容器，在junit test的方法中，每个方法的执行都会创建一次容器，以及关闭它。
 
 每创建一个容器，就会执行一次所有bean的初始化函数，随着容器的销毁也会执行bean的销毁函数（如果bean的初始化函数和销毁函数存在）。
+
+execution(public * *(..))切入点为执行所有public方法时
+execution(* set*(..))切入点为执行所有set开头方法时
+execution(* com.xyz.service.AccountService.*(..))切入点为执行AccountService类中所有方法时
+execution(* com.xyz.service..(..))切入点为执行com.xyz.service包下所有方法时
+execution(* com.xyz.service...(..))切入点为执行com.xyz.service包及其子包下所有方法时
+
+第一次运行aop报错，原因没有导入依赖：
+错误信息：
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ambzerAspect' defined in URL [file:/D:/workspace/idea_space1/SpringPractice/target/classes/spring-aspect.xml]: BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.aop.aspectj.AspectJPointcutAdvisor#0': Cannot create inner bean '(inner bean)' of type [org.springframework.aop.aspectj.AspectJMethodBeforeAdvice] while setting constructor argument; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name '(inner bean)': Cannot resolve reference to bean 'ambzerPointcut' while setting constructor argument; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ambzerPointcut': Instantiation of bean failed; nested exception is java.lang.NoClassDefFoundError: org/aspectj/weaver/tools/PointcutDesignatorHandler
+依赖：
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>3.2.8.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.7.4</version>
+        </dependency>
+
+aop:around实际应用构想：
+    用户注册的时候，可以通过aop:around围绕通知，对获取的密码进行加密，将加密后的密码传给原来的方法执行数据持久化操作，整个过程不需要影响原来的代码，而且可以通过配置文件随时改变加密方式而不影响原来的代码。
+aop:declare-parents实际应用构想：
+    洗车店A，实例B。A可以洗车，任何只要是实现了接口“车”的实例都可以在A处洗车，B是一个实例，虽然B不是接口“车”的实现实例，但是通过declare-parents，可以让B自动实现“车”接口，并且指定实现这个接口的实现类“C”，当B到A处洗车的时候，调用C的洗车方法，给B洗车。
