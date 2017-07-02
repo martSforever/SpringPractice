@@ -44,4 +44,12 @@ public class ConcurrnetOperationExcutor implements Ordered {
         System.out.println("Try error:" + numAttemps);
         throw lockingFailureException;
     }
+
+    public Object anotherAroundAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        System.out.println("anotherAroundAdvice start...");
+        Object object = proceedingJoinPoint.proceed();
+        System.out.println("anotherAroundAdvice end...");
+        return object;
+
+    }
 }

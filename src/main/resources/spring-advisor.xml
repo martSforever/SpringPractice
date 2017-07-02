@@ -7,11 +7,12 @@
     <context:component-scan base-package="com.ambzer.spring.advisor"/>
 
     <aop:config>
+        <aop:pointcut id="idempotentOperation"
+                      expression="execution(* com.ambzer.spring.advisor.AspectTarget.*(..))"/>
         <aop:aspect id="concurrentOperationExcutorAOP" ref="concurrnetOperationExcutor">
-            <aop:pointcut id="idempotentOperation"
-                          expression="execution(* com.ambzer.spring.advisor.AspectTarget.*(..))"/>
             <aop:around method="doConcurrentOperation" pointcut-ref="idempotentOperation"/>
         </aop:aspect>
+
     </aop:config>
 
     <bean id="concurrnetOperationExcutor" class="com.ambzer.spring.advisor.ConcurrnetOperationExcutor">

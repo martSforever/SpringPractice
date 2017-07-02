@@ -13,6 +13,7 @@ public class AspectTarget {
     }
 
     public void invokeException() {
+        System.out.println("throw exception...");
         throw new PessimisticLockingFailureException("");
     }
 }

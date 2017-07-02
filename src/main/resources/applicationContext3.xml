@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--引入外部属性文件-->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <!-- PropertyPlaceholderConfigurer类中有个locations属性，接收的是一个数组，即我们可以在下面配好多个properties文件 -->
+        <property name="locations">
+            <array>
+                <value>classpath:jdbc.properties</value>
+            </array>
+        </property>
+    </bean>
+    <!--配置c3p0的连接池-->
+    <bean id="comboPooledDataSource3" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driverClass}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--配置业务层的类-->
+    <bean id="accountService3" class="com.ambzer.springtransaction.demo3.AccountServiceImpl">
+        <property name="accountDao" ref="accountDao3"/>
+        <!--注入事务管理模板-->
+    </bean>
+    <!--配置持久层的类-->
+    <bean id="accountDao3" class="com.ambzer.springtransaction.demo3.AccountDaoImpl">
+        <property name="dataSource" ref="comboPooledDataSource3"/>
+    </bean>
+
+    <!--配置事务管理器-->
+    <bean id="dataSourceTransactionManager3" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="comboPooledDataSource3"/>
+    </bean>
+
+    <!--配置事务的通知：（事务的增强）-->
+    <tx:advice id="txAdvice" transaction-manager="dataSourceTransactionManager3">
+        <tx:attributes>
+            <!--
+                propagation：事务的传播行为
+                isolation：事务的隔离级别，脏读、不可重复读、幻读
+                readOnly：只读
+                rollback-for：发生哪些异常回滚
+                no-rollback-for：发生哪些异常不回滚
+                timeout :过期信息
+            -->
+            <tx:method name="transfer" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--配置切面-->
+    <aop:config>
+        <!--配置切入点-->
+        <!--execution里面的第一个*表示返回值为任意类型、+表示任意子类、第二个*表示任意方法、(..)表示任意参数-->
+        <aop:pointcut id="pointcut1"
+                      expression="execution(* com.ambzer.springtransaction.demo3.AccountService+.*(..))"/>
+        <!--配置切面-->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut1"/>
+    </aop:config>
+
+</beans>
